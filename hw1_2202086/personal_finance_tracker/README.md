@@ -1,14 +1,21 @@
-# Personal-Finance-Tracker
+# **Finance Tracker**
 
-# 💻 Launch Your Software Development Career Today!  
+Finance Tracker is a Python-based command-line application that helps you track your income and expenses, view transaction summaries within a specific date range, and visualize your financial data over time. The application stores transaction data in a CSV file and provides insights into your financial activity.
 
-🎓 **No degree? No problem!** My program equips you with everything you need to break into tech and land an entry-level software development role.  
+---
 
-🚀 **Why Join?**  
-- 💼 **$70k+ starting salary potential**  
-- 🕐 **Self-paced:** Complete on your own time  
-- 🤑 **Affordable:** Low risk compared to expensive bootcamps or degrees
-- 🎯 **45,000+ job openings** in the market  
+## **Features**
 
-👉 **[Start your journey today!](https://techwithtim.net/dev)**  
-No experience needed—just your determination. Future-proof your career and unlock six-figure potential like many of our students have!  
+### **Add New Transactions**
+- Enter transaction details such as date, amount, category (Income or Expense), and description.
+- Automatically saves transactions in a CSV file.
+
+### **View Transactions and Summary**
+- Filter transactions within a user-defined date range.
+- Displays a summary including:
+  - Total Income
+  - Total Expenses
+  - Net Savings
+
+### **Visualize Financial Data**
+- Generates a line plot showing daily income and expenses over time.
