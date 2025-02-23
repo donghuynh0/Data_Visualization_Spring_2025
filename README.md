@@ -4,7 +4,7 @@
 
 ## 🧭 How to Navigate
 
-1. Each folder is named `hwX_studentID` 
+1. Each folder is named `hwX` 
 2. Open the relevant folder to view assignment files.
 
 ---
