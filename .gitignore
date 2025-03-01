@@ -41,3 +41,5 @@ __pycache__/
 #########################
 .env
 config/aws_credentials.txt
+
+venv/
