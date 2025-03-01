@@ -15,8 +15,8 @@ BINANCE_SECRET_KEY = os.getenv("BINANCE_SECRET_KEY")
 vietnam_tz = pytz.timezone("Asia/Ho_Chi_Minh")
 
 # File paths
-btc_file_path = "data/btc_usdt_data.csv"
-eth_file_path = "data/eth_usdt_data.csv"
+btc_file_path = os.getenv("BTC_FILE_PATH")
+eth_file_path = os.getenv("ETH_FILE_PATH")
 
 # Ensure CSV files exist
 for file in [btc_file_path, eth_file_path]:
