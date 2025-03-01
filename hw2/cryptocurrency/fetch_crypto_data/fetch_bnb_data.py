@@ -26,7 +26,7 @@ for file in [btc_file_path, eth_file_path]:
 
 # Counter to track fetches
 fetch_counter = 0
-FETCH_LIMIT = 6  # Push to GitHub after every 2 fetches
+FETCH_LIMIT = 2  # Push to GitHub after every 2 fetches
 
 async def fetch_binance_data(symbol, file_path):
     """Fetch real-time price data for a given symbol and save to CSV."""
