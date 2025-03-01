@@ -2,6 +2,7 @@ import asyncio
 import pandas as pd
 import pytz
 import os
+import subprocess
 from binance import AsyncClient, BinanceSocketManager
 from dotenv import load_dotenv
 
@@ -23,8 +24,13 @@ for file in [btc_file_path, eth_file_path]:
     if not os.path.exists(file):
         pd.DataFrame(columns=["Time", "Open", "High", "Low", "Close", "Volume"]).to_csv(file, index=False)
 
+# Counter to track fetches
+fetch_counter = 0
+FETCH_LIMIT = 5  # Push to GitHub after every 5 fetches
+
 async def fetch_binance_data(symbol, file_path):
     """Fetch real-time price data for a given symbol and save to CSV."""
+    global fetch_counter
     client = await AsyncClient.create(api_key=BINANCE_API_KEY, api_secret=BINANCE_SECRET_KEY)
     bm = BinanceSocketManager(client)
     socket = bm.kline_socket(symbol, interval="1m")
@@ -49,9 +55,27 @@ async def fetch_binance_data(symbol, file_path):
                 df = pd.DataFrame([data])
                 df.to_csv(file_path, mode='a', header=False, index=False)
 
-                print(f"Saved {symbol} price data")  
+                fetch_counter += 1
+                print(f"Saved {symbol} price data ({fetch_counter}/{FETCH_LIMIT})")
+
+                # Auto-push to GitHub every 5 fetches
+                if fetch_counter >= FETCH_LIMIT:
+                    await push_to_github()
+                    fetch_counter = 0  # Reset counter
 
     await client.close_connection()
+
+async def push_to_github():
+    """Push updated data to GitHub."""
+    print("Pushing data to GitHub...")
+
+    try:
+        subprocess.run(["git", "add", "."], check=True)
+        subprocess.run(["git", "commit", "-m", "Auto-update crypto data"], check=True)
+        subprocess.run(["git", "push"], check=True)
+        print("✅ Successfully pushed to GitHub!")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ GitHub push failed: {e}")
 
 async def main():
     """Run BTC and ETH WebSocket fetchers concurrently."""
