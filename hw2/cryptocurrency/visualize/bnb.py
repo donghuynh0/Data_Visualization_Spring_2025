@@ -1,4 +1,5 @@
 import os
+import subprocess
 import pandas as pd
 import dash
 from dash import dcc, html
@@ -12,12 +13,22 @@ load_dotenv()
 
 btc_file_path = os.getenv("BTC_FILE_PATH")
 eth_file_path = os.getenv("ETH_FILE_PATH")
+repo_path = os.getenv("REPO_PATH")  # Path to your Git repository
 
 server = Flask(__name__)
 app = dash.Dash(__name__, server=server)
 
+def update_repository():
+    """Pull the latest data from the Git repository"""
+    try:
+        subprocess.run(["git", "pull"], cwd=repo_path, check=True, text=True, capture_output=True)
+        print("✅ Git repository updated successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Git pull failed: {e.stderr}")
+
 def get_latest_data(file_path):
-    """Read all available price data from CSV file"""
+    """Pull latest data from Git and read CSV file"""
+    update_repository()  # Pull latest data before reading
     if os.path.exists(file_path):
         df = pd.read_csv(file_path)
         if not df.empty:
@@ -51,7 +62,7 @@ app.layout = html.Div([
                 {"label": "1 Hour", "value": "1H"},
                 {"label": "4 Hours", "value": "4H"}
             ],
-            value="1Min",  # Default timeframe
+            value="1Min",
             clearable=False,
             style={
                 "width": "190px",  
@@ -63,10 +74,6 @@ app.layout = html.Div([
     
     dcc.Graph(id="candlestick-chart", style={"margin-top": "-20px"})
 ])
-
-app.css.append_css({
-    "external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"
-})
 
 @app.callback(
     Output("candlestick-chart", "figure"),
