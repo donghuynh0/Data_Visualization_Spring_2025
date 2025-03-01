@@ -40,3 +40,4 @@ __pycache__/
 # Environment variables #
 #########################
 .env
+config/aws_credentials.txt
