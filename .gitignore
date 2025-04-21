@@ -43,3 +43,5 @@ __pycache__/
 config/aws_credentials.txt
 
 venv/
+
+.ipynb_checkpoints
