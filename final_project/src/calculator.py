@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def win_percentage(df, country):
     # Home
     home_matches = df[df['home_team'] == country]
@@ -12,7 +13,7 @@ def win_percentage(df, country):
     away_win_per = round((len(away_wins) / len(away_matches)) * 100, 2) if len(away_matches) > 0 else 0.0
 
     # Total matches
-    
+
     matches_played = len(home_matches) + len(away_matches)
 
     return {
@@ -33,7 +34,8 @@ def country_match_summary(df):
     for country in countries:
         for tournament in df['tournament'].unique():
             # Filter relevant matches
-            matches = df[((df['home_team'] == country) | (df['away_team'] == country)) & (df['tournament'] == tournament)]
+            matches = df[
+                ((df['home_team'] == country) | (df['away_team'] == country)) & (df['tournament'] == tournament)]
 
             total_matches = len(matches)
             wins = len(matches[matches['winner'] == country])
